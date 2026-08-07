@@ -1,0 +1,24 @@
+---
+import '../styles/global.css';
+
+interface Props {
+	pageTitle?: string
+}
+const { pageTitle = "site.title"} = Astro.props
+---
+
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>Astro | {pageTitle}</title>
+	</head>
+	<body class="w-full min-h-screen bg-linear-to-b from-[#202020] to-[#2c2c2c] text-indigo-100">
+		<main class="mx-auto max-w-7xl p-10">
+			<slot />
+		</main>
+	</body>
+</html>
