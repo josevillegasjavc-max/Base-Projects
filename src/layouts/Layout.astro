@@ -2,23 +2,55 @@
 import '../styles/global.css';
 
 interface Props {
-	pageTitle?: string
+	title?: string;
+	description?: string;
+	canonicalURL?: string;
+	ogImage?: string;
 }
-const { pageTitle = "site.title"} = Astro.props
+const { 
+	title = "site.title",
+	description = "site.description",
+	canonicalURL = Astro.url.href,
+	ogImage = "/og-image.svg",
+} = Astro.props
+
+const socialImageURL = new URL(ogImage, Astro.site ?? Astro.url);
 ---
 
 <!doctype html>
-<html lang="en" class="scroll-smooth">
+<html lang="es" class="scroll-smooth">
 	<head>
+		<!-- Metadatos tecnicos basicos -->
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro | {pageTitle}</title>
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="canonical" href={canonicalURL}>
+
+		<!-- SEO Primario -->
+		<title>{title}</title>
+		<meta name="title" content={title}>
+		<meta name="description" content={description}>
+
+		<!-- Open Graph -->
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content={canonicalURL} />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:image" content={socialImageURL} />
+
+		<!-- Twitter / X -->
+		<meta property="twitter:card" content="summary_large_image" />
+		<meta property="twitter:url" content={canonicalURL} />
+		<meta property="twitter:title" content={title} />
+		<meta property="twitter:description" content={description} />
+		<meta property="twitter:image" content={socialImageURL} />
 	</head>
+
 	<body class="w-full min-h-screen bg-linear-to-b from-[#202020] to-[#2c2c2c] text-indigo-100">
 		<main class="mx-auto max-w-7xl p-10">
 			<slot />
 		</main>
 	</body>
+
 </html>
